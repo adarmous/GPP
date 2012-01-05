@@ -150,7 +150,6 @@ $(document).ready(function () {
         var weeksBetween;
         var weeksBetweenGraphStartAndFinish = weeks_between(Date.parse(realStartDate), Date.parse(realFinishDate));
         for (z = 1; z < gValues.length; z = z + 2) {
-            ctx.strokeStyle = "#ffffff";
             ctx.globalAlpha = 0.2;
             ctx.save();
             end = gValues[z];
@@ -158,9 +157,6 @@ $(document).ready(function () {
             weeksBetween = weeks_between(Date.parse(realStartDate), Date.parse(end.toDateString()));
             ctx.fillRect((getStart + 1), yCounter, (weeksBetween * spacing), 40);
             yCounter = yCounter + 45;
-            //ctx.save();
-            //ctx.strokeStyle = "#cccccc";
-            //ctx.save();
             ctx.rotate(Math.PI / 2);
             if (weeksBetween != false) {
                 if (weeksBetween < weeksBetweenGraphStartAndFinish - 1.6) {
@@ -235,7 +231,9 @@ $(document).ready(function () {
             z = z - spacing;
         }
         ctx.restore();
-        ctx.lineWidth = 1;
+        ctx.globalAlpha = 2.0;
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 0.4;
         ctx.save();
         drawLine(ctx, getStart, 0, getStart, divHeight);
         drawLine(ctx, 0, divHeight - 100, divWidth, divHeight - 100);
