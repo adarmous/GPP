@@ -4,6 +4,7 @@
 }
 
 <div style="width:100%; float:left; margin-bottom:10px;">
+    @Html.ActionLink("Print Graph", "PrintGraph", "Projects")
     <p style="float:right; margin-top:0px;">
     Timeframe:
     @Html.DropDownList("Timeframo", ViewBag.Timeframez as SelectList, new {id = "timeframo"})
