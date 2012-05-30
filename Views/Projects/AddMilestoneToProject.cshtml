@@ -1,0 +1,47 @@
+﻿@model GPP.Library.MilestoneViewModel
+
+@{
+    ViewBag.Title = "AddMilestoneToProject";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add Milestone To Project</h2>
+
+@using (Html.BeginForm("AddMilestoneToProject", "Projects", FormMethod.Post, new { id = ViewBag.Id })) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Milestone Details</legend>
+ 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BaselineStart)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.BaselineStart, new { type = "date" })
+            @Html.ValidationMessageFor(model => model.BaselineStart)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BaselineFinish)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.BaselineFinish, new { type = "date" })
+            @Html.ValidationMessageFor(model => model.BaselineFinish)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "AllMilestones", new { id = ViewBag.Id })
+</div>

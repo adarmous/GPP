@@ -1,0 +1,12 @@
+c:\GPP\GPP\bin\GPP.dll
+c:\GPP\GPP\bin\GPP.pdb
+c:\GPP\GPP\bin\DataAnnotationsExtensions.ClientValidation.dll
+c:\GPP\GPP\bin\DataAnnotationsExtensions.dll
+c:\GPP\GPP\bin\EntityFramework.dll
+c:\GPP\GPP\bin\GPP.Library.dll
+c:\GPP\GPP\bin\WebActivator.dll
+c:\GPP\GPP\bin\GPP.Library.pdb
+c:\GPP\GPP\bin\EntityFramework.xml
+c:\GPP\GPP\obj\Debug\ResolveAssemblyReference.cache
+c:\GPP\GPP\obj\Debug\GPP.dll
+c:\GPP\GPP\obj\Debug\GPP.pdb

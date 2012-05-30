@@ -1,0 +1,56 @@
+﻿@model IList<GPP.Library.ProjectViewModel>
+
+@{
+    ViewBag.Title = "All Closed Projects";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>All Closed Projects</h2>
+
+<p>
+    @Html.ActionLink("Open Projects", "AllOpenProjects", "Projects")
+</p>
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Start
+        </th>
+        <th>
+            Finish
+        </th>
+        <th>
+            Last Updated
+        </th>
+        <th>Owner</th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BaselineStart)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BaselineFinish)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastUpdated)
+        </td>
+        <td>
+           @Html.DisplayFor(modelItem => item.OwnerName)
+        </td>
+        <td>
+            @Html.ActionLink("Re-Open", "Re-Open", new { id=item.Id })|
+            @Html.ActionLink("Edit Project", "EditProject", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "DeleteProject", new { id=item.Id }) 
+        </td>
+    </tr>
+}
+
+</table>

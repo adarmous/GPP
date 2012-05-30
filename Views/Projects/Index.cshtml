@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "GPP";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="width:100%; float:left; margin-bottom:10px;">
+    <p style="float:right; margin-top:0px;">
+    Timeframe:
+    @Html.DropDownList("Timeframo", ViewBag.Timeframez as SelectList, new {id = "timeframo"})
+    Division:
+    @Html.DropDownList("Divisiono", ViewBag.Divisionz as SelectList, new {id = "divisiono"})
+    </p>
+</div>
+
+<canvas id="graph"></canvas>  
+
+<ol>
+<li>As a user i wan to be able to add tasks to the graph</li>
+<li>As a user i want to be able to set colours for common types</li>
+<li>As the developer i wish to deploy this from github to appharbor</li>
+</ol>
+

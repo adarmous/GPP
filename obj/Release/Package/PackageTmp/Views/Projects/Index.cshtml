@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "GPP";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p style="float:right; margin-top:0px">
+Timeframe:
+@Html.DropDownList("Timeframo", ViewBag.Timeframez as SelectList, new {id = "timeframo"})
+
+</p>
+ <canvas id="graph"></canvas>  
+
+ <div id="div1"></div>
+ 
+ <ol>
+ <li>As a user of GPP i require to see the end date of a project on the project bar when the length of the project exceeds the view.</li>
+ <li>As a user of GPP i require the ability to filter by division.</li>
+ <li>As a user of GPP i require to see milestone/tasks on the project bar with the names of the tasks on them.</li>
+ <li>As a user i require the ability to set the colour of tasks in the backend.</li>
+ <li>As a user i require the ability of the view to adapt to as many projects as are listed. </li>
+ <li style="text-decoration:line-through">As a user i require data validation that stops end dates being less then start dates.</li>
+ </ol>
+

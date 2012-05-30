@@ -1,0 +1,53 @@
+﻿@model GPP.Library.ProjectViewModel
+
+@{
+    ViewBag.Title = "Add a Project";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    $(function () {
+        $("#datepicker").datepicker();
+    });
+	</script>
+
+<h2>Add a Project</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Project Details</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BaselineStart)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.BaselineStart)
+            @Html.ValidationMessageFor(model => model.BaselineStart)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BaselineFinish)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.BaselineFinish)
+            @Html.ValidationMessageFor(model => model.BaselineFinish)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "AllOpenProjects")
+</div>

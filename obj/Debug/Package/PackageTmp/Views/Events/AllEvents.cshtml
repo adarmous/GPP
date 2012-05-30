@@ -1,0 +1,58 @@
+﻿@model IEnumerable<GPP.Library.GlobalEventViewModel>
+
+@{
+    ViewBag.Title = "All Events";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>All Events</h2>
+
+<p>
+    @Html.ActionLink("Add Event", "AddEvent")
+    @Html.ActionLink("Event Types", "AllEventTypes")
+</p>
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Event Type
+        </th>
+        <th>
+            Start
+        </th>
+        <th>
+            Finish
+        </th>
+        <th>
+            Closed
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventTypeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Start)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Finish)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Closed)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditEvent", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "DeleteEvent", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,32 @@
+﻿@model IEnumerable<GPP.Library.TypeViewModel>
+
+@{
+    ViewBag.Title = "All Event Types";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>All Event Types</h2>
+
+<p>
+    @Html.ActionLink("Add Event Type", "AddEventType")
+</p>
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "DeleteEventType", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

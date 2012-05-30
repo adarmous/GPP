@@ -1,0 +1,47 @@
+﻿@model GPP.Library.TimeframesViewModel
+
+@{
+    ViewBag.Title = "Add Timeframe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add Timeframe</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Timeframe Details</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Months)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Months)
+            @Html.ValidationMessageFor(model => model.Months)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DefaultValue)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.DefaultValue)
+            @Html.ValidationMessageFor(model => model.DefaultValue)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "AllTimeframes")
+</div>

@@ -1,0 +1,55 @@
+﻿@model GPP.Library.TypeViewModel
+
+@{
+    ViewBag.Title = "Add Type";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add Type</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>TypeViewModel</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Colour)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Colour)
+            @Html.ValidationMessageFor(model => model.Colour)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Event)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Event)
+            @Html.ValidationMessageFor(model => model.Event)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Milestone)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Milestone)
+            @Html.ValidationMessageFor(model => model.Milestone)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

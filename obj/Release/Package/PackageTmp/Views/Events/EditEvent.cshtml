@@ -1,0 +1,64 @@
+﻿@model GPP.Library.GlobalEventViewModel
+
+@{
+    ViewBag.Title = "Edit Event";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Event</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Event Details</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            Event Type
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("EventTypeId", ViewBag.Tyypes as SelectList)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Start)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Start, new { type = "date" })
+            @Html.ValidationMessageFor(model => model.Start)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Finish)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Finish, new { type = "date" })
+            @Html.ValidationMessageFor(model => model.Finish)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Closed)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Closed)
+            @Html.ValidationMessageFor(model => model.Closed)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to Events", "AllEvents")
+</div>

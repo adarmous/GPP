@@ -1,0 +1,46 @@
+﻿@model IEnumerable<GPP.Library.MilestoneViewModel>
+
+@{
+    ViewBag.Title = "All Milestones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>All Milestones For Project: </h2>
+
+<p>
+    @Html.ActionLink("Add Milestone", "AddMilestoneToProject", new { id = ViewBag.Id })
+    @Html.ActionLink("Open Projects", "AllOpenProjects", "Projects")
+</p>
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Start
+        </th>
+        <th>
+            Finish
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BaselineStart)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BaselineFinish)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditMilestone", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "DeleteMilestoneFromProject", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

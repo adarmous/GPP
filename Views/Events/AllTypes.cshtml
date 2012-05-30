@@ -1,0 +1,52 @@
+﻿@model IEnumerable<GPP.Library.TypeViewModel>
+
+@{
+    ViewBag.Title = "All Types";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>All Types</h2>
+
+<p>
+    @Html.ActionLink("Create New", "AddType")
+</p>
+
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Colour
+        </th>
+        <th>
+            Milestone Task
+        </th>
+        <th>
+            Event Task
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Colour)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Event)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Milestone)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditTyype", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "DeleteType", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,33 @@
+﻿@model GPP.Library.TypeViewModel
+
+@{
+    ViewBag.Title = "Add an Event Type";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add an Event Type</h2>
+
+<p>This page is complete.</p>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Event Type Details</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to Event Types", "AllEventTypes", "Events")
+</div>
