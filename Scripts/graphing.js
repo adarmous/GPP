@@ -295,7 +295,10 @@ $(document).ready(function () {
             divHeight = divHeight + (yLabels.length - 10) * 45;
             textStart = parseInt(textStart.toString()) + (yLabels.length - 10) * 45;
         }
+    }
 
+    function ArrayContains(value) {
+        return true;
     }
 
     //function to return task data
@@ -308,57 +311,56 @@ $(document).ready(function () {
             url: "../Projects/GetMilestoneData",
             success: function (task) {
                 for (i = 0; i < task.length; i++) {
+                    if (ArrayContains(task[i].ProjectId)) {
+                        tLabels.push(task[i].Name);
+                        milestoneValues.push(task[i].ProjectId);
+                        milestoneValues.push(task[i].BaselineStart);
+                        milestoneValues.push(task[i].BaselineFinish);
 
-                    tLabels.push(task[i].Name);
-                    milestoneValues.push(task[i].ProjectId);
-                    milestoneValues.push(task[i].BaselineStart);
-                    milestoneValues.push(task[i].BaselineFinish);
-
-                    //alert(task[i].ProjectId + " " + lastId);
-                    //31 0 i=0 pid != lastid and i = 0 therefore counter++
-                    //31 31 i=1 pid == lastid and i!= 0 there counter++
-                    //32 31 i=22 pid != lastid and i!= 0 push
-
-                    if (task[i].ProjectId != lastId) {
-
-                        if (i == 0) {
-                            xCounter++;
-                        }
-
-                        if (i != 0) {
-                            milestonePerProject.push(xCounter);
-                            xCounter = 0;
-                        }
-
-                        if (i == (task.length - 1)) {
-                            xCounter++;
-                            milestonePerProject.push(xCounter);
-                            xCounter = 0;
-                        }
-                    }
-                    else {
+                        //alert(task[i].ProjectId + " " + lastId);
+                        //31 0 i=0 pid != lastid and i = 0 therefore counter++
                         //31 31 i=1 pid == lastid and i!= 0 there counter++
-                        if (i != 0) {
-                            xCounter++;
+                        //32 31 i=22 pid != lastid and i!= 0 push
+
+                        if (task[i].ProjectId != lastId) {
+
+                            if (i == 0) {
+                                xCounter++;
+                            }
+
+                            if (i != 0) {
+                                milestonePerProject.push(xCounter);
+                                xCounter = 0;
+                            }
+
+                            if (i == (task.length - 1)) {
+                                xCounter++;
+                                milestonePerProject.push(xCounter);
+                                xCounter = 0;
+                            }
+                        }
+                        else {
+                            //31 31 i=1 pid == lastid and i!= 0 there counter++
+                            if (i != 0) {
+                                xCounter++;
+                            }
+
+                            if (i == 0) {
+                                xCounter++;
+                            }
+
+                            if (i == (task.length - 1)) {
+                                xCounter++;
+                                milestonePerProject.push(xCounter);
+                                xCounter = 0;
+                            }
                         }
 
-                        if (i == 0) {
-                            xCounter++;
-                        }
-
-                        if (i == (task.length - 1)) {
-                            xCounter++;
-                            milestonePerProject.push(xCounter);
-                            xCounter = 0;
-                        }
+                        lastId = task[i].ProjectId;
                     }
-
-                    lastId = task[i].ProjectId;
                 }
             }
         });
-
-
     }
 
     //function return event data

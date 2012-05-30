@@ -13,6 +13,7 @@ namespace GPP.Controllers
         public IMilestoneService Tasks { get; set; }
         public ITimeframesService Timeframes { get; set; }
         public IDivisionService Divisions { get; set; }
+        public ITypeService Tyypes { get; set; }
 
         public ProjectsController()
         {
@@ -20,6 +21,7 @@ namespace GPP.Controllers
             if (Tasks == null) { Tasks = new MilestoneService(); }
             if (Timeframes == null) { Timeframes = new TimeframesService(); }
             if (Divisions == null) { Divisions = new DivisionService(); }
+            if (Tyypes == null) { Tyypes = new TypeService(); }
             base.Initialize(new System.Web.Routing.RequestContext());
         }
 
@@ -32,9 +34,9 @@ namespace GPP.Controllers
             return View();
         }
 
-        public ActionResult AllOpenProjects()
+        public ActionResult AllProjects()
         {
-            var projects = Projects.GetAllOpenProjects();
+            var projects = Projects.GetAllProjects();
             return View(projects);
         }
 
@@ -42,12 +44,6 @@ namespace GPP.Controllers
         {
             var timeframes = Timeframes.GetAllTimeframes();
             return View(timeframes);
-        }
-
-        public ActionResult AllClosedProjects()
-        {
-            var projects = Projects.GetAllClosedProjects();
-            return View(projects);
         }
 
         public JsonResult GetProjectData()
@@ -88,6 +84,12 @@ namespace GPP.Controllers
             return RedirectToAction("AllTimeframes");
         }
 
+        public ActionResult DefaultTimeframe(string id)
+        {
+            Timeframes.DefaultTimeframe(id);
+            return RedirectToAction("AllTimeframes");
+        }
+
         //Add a project to the system
         public ActionResult AddProject()
         {
@@ -110,7 +112,7 @@ namespace GPP.Controllers
             else
             {
                 Projects.AddProject(model);
-                return RedirectToAction("AllOpenProjects");
+                return RedirectToAction("AllProjects");
             }
         }
 
@@ -118,7 +120,7 @@ namespace GPP.Controllers
         public ActionResult DeleteProject(string id)
         {
             Projects.DeleteProject(id);
-            return RedirectToAction("AllOpenProjects");
+            return RedirectToAction("AllProjects");
         }
 
         //Edit a project in the system
@@ -146,7 +148,7 @@ namespace GPP.Controllers
             else
             {
                 Projects.EditProject(model);
-                return RedirectToAction("AllOpenProjects");
+                return RedirectToAction("AllProjects");
             }
         }
 
@@ -161,6 +163,7 @@ namespace GPP.Controllers
         public ActionResult AddMilestoneToProject(string id)
         {
             ViewBag.Id = id;
+            ViewBag.Typez = new SelectList(Tyypes.GetMilestoneTypes(), "Id", "Name");
             return View();
         }
 
@@ -169,6 +172,7 @@ namespace GPP.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.Typez = new SelectList(Tyypes.GetMilestoneTypes(), "Id", "Name");
                 return View();
             }
             else
@@ -182,13 +186,17 @@ namespace GPP.Controllers
         //Delete a task from a project
         public ActionResult DeleteMilestoneFromProject(string id)
         {
-            return RedirectToAction("AllMilestones", "Projects", new { id = id });
+            int idd = Tasks.GetTask(id).ProjectId;
+            Tasks.DeleteTask(id);
+            return RedirectToAction("AllMilestones", "Projects", new { id = idd });
         }
 
         //Edit a specific task
         //Edit a project in the system
         public ActionResult EditMilestone(string id)
         {
+            
+            ViewBag.Typez = new SelectList(Tyypes.GetMilestoneTypes(), "Id", "Name", Tasks.GetTask(id).TypeId);
             return View(Tasks.GetTask(id));
         }
 

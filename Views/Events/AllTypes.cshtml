@@ -36,12 +36,14 @@
         <td>
             @Html.DisplayFor(modelItem => item.Colour)
         </td>
+
+         <td>
+            @Html.DisplayFor(modelItem => item.Milestone)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Event)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Milestone)
-        </td>
+       
         <td>
             @Html.ActionLink("Edit", "EditTyype", new { id=item.Id }) |
             @Html.ActionLink("Delete", "DeleteType", new { id=item.Id })

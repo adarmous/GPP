@@ -225,7 +225,7 @@
     <Content Include="Views\Events\AddEvent.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Projects\AllOpenProjects.cshtml" />
+    <Content Include="Views\Projects\AllProjects.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Projects\EditProject.cshtml" />

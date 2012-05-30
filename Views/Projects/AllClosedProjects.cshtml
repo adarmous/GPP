@@ -46,9 +46,7 @@
            @Html.DisplayFor(modelItem => item.OwnerName)
         </td>
         <td>
-            @Html.ActionLink("Re-Open", "Re-Open", new { id=item.Id })|
-            @Html.ActionLink("Edit Project", "EditProject", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "DeleteProject", new { id=item.Id }) 
+            @Html.ActionLink("Re-Open", "ReOpen", new { id=item.Id })
         </td>
     </tr>
 }

@@ -47,7 +47,7 @@ namespace GPP.Controllers
         //Add a new event
         public ActionResult AddEvent()
         {
-            ViewBag.Tyypes = new SelectList(Types.GetAllTypes(), "Id", "Name");
+            ViewBag.Tyypes = new SelectList(Types.GetEventTypes(), "Id", "Name");
             return View();
         }
 
@@ -74,7 +74,7 @@ namespace GPP.Controllers
         //Event an event
         public ActionResult EditEvent(string id)
         {
-            ViewBag.Tyypes = new SelectList(Types.GetAllTypes(), "Id", "Name", Types.GetTyype(Events.GetEvent(id).EventTypeId.ToString()).Id);
+            ViewBag.Tyypes = new SelectList(Types.GetEventTypes(), "Id", "Name", Types.GetTyype(Events.GetEvent(id).EventTypeId.ToString()).Id);
             return View(Events.GetEvent(id));
         }
 
@@ -141,7 +141,7 @@ namespace GPP.Controllers
         public ActionResult DeleteType(string id)
         {
             Types.DeleteType(id);
-            return RedirectToAction("AllEventTypes");
+            return RedirectToAction("AllTypes");
         }
     }
 }

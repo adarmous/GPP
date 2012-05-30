@@ -9,7 +9,7 @@
 
 <p>
     @Html.ActionLink("Add Milestone", "AddMilestoneToProject", new { id = ViewBag.Id })
-    @Html.ActionLink("Open Projects", "AllOpenProjects", "Projects")
+    @Html.ActionLink("All Projects", "AllProjects", "Projects")
 </p>
 <table>
     <tr>
@@ -21,6 +21,9 @@
         </th>
         <th>
             Finish
+        </th>
+        <th>
+            Type
         </th>
         <th></th>
     </tr>
@@ -35,6 +38,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.BaselineFinish)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeName)
         </td>
         <td>
             @Html.ActionLink("Edit", "EditMilestone", new { id=item.Id }) |

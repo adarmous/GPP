@@ -36,7 +36,8 @@
             @Html.DisplayFor(modelItem => item.DefaultValue)
         </td>
         <td>
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Delete", "DeleteTimeframe", new { id=item.Id })
+            @Html.ActionLink("Default", "DefaultTimeframe", new { id=item.Id })
         </td>
     </tr>
 }

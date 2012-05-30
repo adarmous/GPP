@@ -9,8 +9,8 @@
 
 <p>
     @Html.ActionLink("Add Project", "AddProject", "Projects")
-    @Html.ActionLink("Closed Projects", "AllClosedProjects", "Projects")
 </p>
+
 <table>
     <tr>
         <th>
@@ -27,6 +27,9 @@
         </th>
         <th>
             Owner
+        </th>
+        <th>
+            Closed
         </th>
         <th></th>
     </tr>
@@ -47,6 +50,9 @@
         </td>
         <td>
            @Html.DisplayFor(modelItem => item.OwnerName)
+        </td>
+        <td>
+           @Html.DisplayFor(modelItem => item.Closed)
         </td>
         <td>
             @Html.ActionLink("Edit Project", "EditProject", new { id=item.Id }) |
