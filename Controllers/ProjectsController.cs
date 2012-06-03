@@ -164,6 +164,8 @@ namespace GPP.Controllers
         {
             ViewBag.Id = id;
             ViewBag.Typez = new SelectList(Tyypes.GetMilestoneTypes(), "Id", "Name");
+            var projz = Projects.GetProject(id);
+            ViewBag.StartAndFinish = "Project: " + projz.Name + " -> Starts: " + projz.BaselineStart + " and Finishes: " + projz.BaselineFinish;
             return View();
         }
 

@@ -7,6 +7,8 @@
 
 <h2>Add Milestone To Project</h2>
 
+<p>@ViewBag.StartAndFinish </p>
+
 @using (Html.BeginForm("AddMilestoneToProject", "Projects", FormMethod.Post, new { id = ViewBag.Id })) {
     @Html.ValidationSummary(true)
     <fieldset>

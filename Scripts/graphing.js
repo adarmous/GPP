@@ -26,6 +26,8 @@ $(document).ready(function () {
     var milestonePerProject = [];
     var tLabels = [];
     var milestoneValues = [];
+    var taskColours = [];
+    var eventColours = [];
     var eventData = [];
     var eventLabels = [];
 
@@ -42,7 +44,6 @@ $(document).ready(function () {
 
     initCanvas();
     getParentDivDimensions();
-    drawBorders();
     getSetData();
     drawGraph();
 
@@ -50,11 +51,9 @@ $(document).ready(function () {
         textStart = 468;
         divHeight = 560;
         startingLabel = 14;
-        zeroArrays();
         clearCanvas();
         initCanvas();
         getParentDivDimensions();
-        drawBorders();
         getSetData();
         drawGraph();
     }
@@ -67,16 +66,6 @@ $(document).ready(function () {
         document.getElementById("graph").height = divHeight;
     }
 
-    function drawBorders() {
-        ctx.fillStyle = "#000000";
-        drawLine(ctx, 0, 0, divWidth, 0); //top border
-        drawLine(ctx, 0, 0, 0, divHeight); //left border
-        drawLine(ctx, 0, divHeight, divWidth, divHeight); //bottom border;
-        drawLine(ctx, divWidth, 0, divWidth, divHeight); //right border;
-    }
-
-    /*Draw Events*/
-
     //Function to draw events
     function drawEvents() {
         var eventStart;
@@ -87,21 +76,20 @@ $(document).ready(function () {
         var spacing = getTextSpacing();
         var dontWorry = 0;
         var nameCount = 0;
+
+        var startingPoint = 0;
         for (z = 0; z < eventData.length; z = z + 2) {
+            ctx.fillStyle = eventColours[nameCount];
             eventName = eventLabels[nameCount];
             nameCount++;
             eventStart = new Date(parseInt(eventData[z].substr(6)));
             eventEnd = new Date(parseInt(eventData[z + 1].substr(6)));
             weeksBetweenGetStartAndEventStart = weeks_between(Date.parse(realStartDate), Date.parse(eventStart.toDateString()));
             weeksBetween = weeks_between(Date.parse(realStartDate), Date.parse(eventEnd.toDateString()));
-            ctx.save();
-            ctx.globalAlpha = 0.3;
-            ctx.fillStroke = "#cfcfcf";
-            ctx.save();
-            var startingPoint;
 
-            if (isDateLessThanDate(Date.parse(realStartDate)), Date.parse(eventStart.toDateString())) {
-                if (isDateLessThanDate(Date.parse(eventEnd.toDateString()), Date.parse(realStartDate))) {
+
+            if (isDateLessThanDate(Date.parse(realStartDate), Date.parse(eventStart.toDateString()), "drawEventsFirstIf")) {
+                if (isDateLessThanDate(Date.parse(eventEnd.toDateString()), Date.parse(realStartDate), "drawEventsSecondIf")) {
                     dontWorry = 1;
                 }
                 else {
@@ -115,13 +103,12 @@ $(document).ready(function () {
                 dontWorry = 0;
             }
 
-            if (dontWorry != 1 || dontWorry < 1 || dontWorry > 1) {
+            if (dontWorry == 0 || dontWorry < 1) {
                 ctx.fillRect(startingPoint, 0, (weeksBetween * spacing), divHeight - 100);
-
                 ctx.save();
                 ctx.rotate(Math.PI / 2);
-                ctx.strokeStyle = "#000000";
                 if (weeksBetween >= 0.5) {
+                    ctx.fillStyle = "#000000";
                     ctx.fillText(eventName, ((divHeight - 105) - ctx.measureText(eventName).width), -(startingPoint + 1 + weeksBetween * spacing) + 10);
                 }
                 ctx.restore();
@@ -185,9 +172,13 @@ $(document).ready(function () {
             var nextId = 0;
             var zCounter = 0;
             var name = "";
+            //alert("here in projectlength world" + milestonePerProject.length);
             for (c = 0; c < milestonePerProject.length; c++) {
+                //alert("this is c: " + c);
                 for (b = 0; b < milestonePerProject[c]; b++) {
-                    ctx.fillStyle = GetRandomColour();
+                    //alert("this is b(inside loop): " + b + " this is c: " + c);
+                    //alert(c + " " + b);
+                    ctx.fillStyle = taskColours[nameCounter];
                     name = tLabels[nameCounter];
                     nameCounter++;
                     xCounter++;
@@ -199,12 +190,17 @@ $(document).ready(function () {
                         taskStart = getStart;
                         weeksBetween = weeks_between(Date.parse(realStartDate), Date.parse(end.toDateString()));
                         ctx.fillRect(taskStart, yCounter, (weeksBetween * spacing), 40);
+                        ctx.fillStyle = "#ffffff";
+                        ctx.fillText(name, taskStart, yCounter + 20);
                     }
                     else {
                         taskStart = getStart + weeks_between(Date.parse(realStartDate), Date.parse(start.toDateString())) * spacing;
                         weeksBetween = weeks_between(Date.parse(start.toDateString()), Date.parse(end.toDateString()));
                         ctx.fillRect(taskStart, yCounter, (weeksBetween * spacing), 40);
+                        ctx.fillStyle = "#ffffff";
+                        ctx.fillText(name, taskStart, yCounter + 20);
                     }
+
                 }
                 yCounter = yCounter + 45;
             }
@@ -226,10 +222,11 @@ $(document).ready(function () {
             ctx.fillText(bLabels[k].toString(), parseInt(textStart.toString()), z);
             z = z - spacing;
         }
-
         ctx.restore();
-
-        ctx.strokeStyle = "#1f7c07";
+        ctx.lineWidth = 1;
+        ctx.globalAlpha = 1;
+        ctx.strokeStyle = "#000000";
+        ctx.save();
         drawLine(ctx, getStart, 0, getStart, divHeight);
         drawLine(ctx, 0, divHeight - 100, divWidth, divHeight - 100);
 
@@ -311,53 +308,18 @@ $(document).ready(function () {
             url: "../Projects/GetMilestoneData",
             success: function (task) {
                 for (i = 0; i < task.length; i++) {
-                    if (ArrayContains(task[i].ProjectId)) {
-                        tLabels.push(task[i].Name);
-                        milestoneValues.push(task[i].ProjectId);
-                        milestoneValues.push(task[i].BaselineStart);
-                        milestoneValues.push(task[i].BaselineFinish);
-
-                        //alert(task[i].ProjectId + " " + lastId);
-                        //31 0 i=0 pid != lastid and i = 0 therefore counter++
-                        //31 31 i=1 pid == lastid and i!= 0 there counter++
-                        //32 31 i=22 pid != lastid and i!= 0 push
-
-                        if (task[i].ProjectId != lastId) {
-
-                            if (i == 0) {
-                                xCounter++;
-                            }
-
-                            if (i != 0) {
-                                milestonePerProject.push(xCounter);
-                                xCounter = 0;
-                            }
-
-                            if (i == (task.length - 1)) {
-                                xCounter++;
-                                milestonePerProject.push(xCounter);
-                                xCounter = 0;
-                            }
-                        }
-                        else {
-                            //31 31 i=1 pid == lastid and i!= 0 there counter++
-                            if (i != 0) {
-                                xCounter++;
-                            }
-
-                            if (i == 0) {
-                                xCounter++;
-                            }
-
-                            if (i == (task.length - 1)) {
-                                xCounter++;
-                                milestonePerProject.push(xCounter);
-                                xCounter = 0;
-                            }
-                        }
-
-                        lastId = task[i].ProjectId;
+                    tLabels.push(task[i].Name);
+                    milestoneValues.push(task[i].ProjectId);
+                    milestoneValues.push(task[i].BaselineStart);
+                    milestoneValues.push(task[i].BaselineFinish);
+                    taskColours.push(task[i].Colour);
+                    xCounter++;
+                    alert(" ProjectId: " + task[i].ProjectId + " lastId " + lastId + "i " + i + " xCounter " + xCounter);
+                    if (task[i].ProjectId != lastId && i != 0) {
+                        milestonePerProject.push(xCounter);
+                        xCounter = 0;
                     }
+                    lastId = task[i].ProjectId;
                 }
             }
         });
@@ -373,12 +335,12 @@ $(document).ready(function () {
                     eventLabels.push(event[i].Name);
                     eventData.push(event[i].Start);
                     eventData.push(event[i].Finish);
+                    eventColours.push(event[i].Colour);
+                    alert(event[i].Colour);
                 }
             }
         });
     }
-
-
 
     /*Core Functions*/
 
@@ -416,7 +378,8 @@ $(document).ready(function () {
 
     //Function to determine the numbers of weeks between two dates
     function weeks_between(date1, date2) {
-        if (isDateLessThanDate(date1, date2)) {
+
+        if (isDateLessThanDate(date1, date2, "WeeksBetween")) {
             // The number of milliseconds in one week
             var ONE_WEEK = 1000 * 60 * 60 * 24 * 7;
             // Convert both dates to milliseconds
@@ -434,7 +397,7 @@ $(document).ready(function () {
     }
 
     //Function to determine if one date is less then another date
-    function isDateLessThanDate(date1, date2) {
+    function isDateLessThanDate(date1, date2, when) {
         var date12 = new Date(date1);
         var date22 = new Date(date2);
         var curr_date1 = date12.getDate();
@@ -442,34 +405,28 @@ $(document).ready(function () {
         var curr_year1 = date12.getFullYear();
         var curr_date2 = date22.getDate();
         var curr_month2 = date22.getMonth() + 1;
-        var curr_year2 = date22.getFullYear();
-        if (isInt1LessInt2(curr_year1, curr_year2)) {
+        var curr_year2 = date22.getFullYear(); //alert("days: " + curr_date1 + " " + curr_date2 + " months: " + curr_month1 + " " + curr_month2 + " years: " + curr_year1 + " " + curr_year2);
+
+        if (parseInt(curr_year1) < parseInt(curr_year2)) {
             return true;
         }
         else {
-            if (isInt1LessInt2(curr_month1, curr_month2)) {
+            if (parseInt(curr_month1) < parseInt(curr_month2)) {
                 return true;
             }
             else {
-                if (isInt1LessInt2(curr_date1, curr_date2)) {
+                if (parseInt(curr_date1) < parseInt(curr_date2)) {
                     return true;
                 }
                 else {
+                    alert(when + " " + parseInt(curr_date1) + " > " + parseInt(curr_date2) + " " + date22 + " " + date2);
                     return false;
                 }
             }
         }
     }
 
-    //Function to determine if one int is less then another int
-    function isInt1LessInt2(int1, int2) {
-        if (parseInt(int1) < parseInt(int2)) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+
 
     //Function to return a random colour
     function GetRandomColour() {
@@ -484,10 +441,6 @@ $(document).ready(function () {
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.clearRect(0, 0, cv.width, cv.height);
         ctx.restore();
-    }
-
-    //function to zero out the arrays
-    function zeroArrays() {
         gValues.length = 0;
         xLabels.length = 0;
         yLabels.length = 0;
@@ -499,6 +452,9 @@ $(document).ready(function () {
         eventData.length = 0;
         eventLabels.length = 0;
         milestonePerProject.length = 0;
+        taskColours.length = 0;
+        eventColours.length = 0;
     }
+
 
 });

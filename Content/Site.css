@@ -268,3 +268,8 @@ div#title {
 .tri-state {
     width: 6em;
 }
+
+canvas
+{
+	border:2px solid black;
+}

@@ -23,11 +23,6 @@ namespace GPP.Controllers
         public JsonResult GetEventData()
         {
             var evs = Events.GetAllEvents();
-            if (evs.Count > 0)
-            {
-                Console.Write("Over");
-            }
-            //Events.WriteToLog(evs.Count.ToString());
             return Json(evs, JsonRequestBehavior.AllowGet);
         }
 
