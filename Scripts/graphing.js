@@ -314,7 +314,7 @@ $(document).ready(function () {
                     milestoneValues.push(task[i].BaselineFinish);
                     taskColours.push(task[i].Colour);
                     xCounter++;
-                    alert(" ProjectId: " + task[i].ProjectId + " lastId " + lastId + "i " + i + " xCounter " + xCounter);
+                    //alert(" ProjectId: " + task[i].ProjectId + " lastId " + lastId + "i " + i + " xCounter " + xCounter);
                     if (task[i].ProjectId != lastId && i != 0) {
                         milestonePerProject.push(xCounter);
                         xCounter = 0;
