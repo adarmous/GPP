@@ -336,7 +336,7 @@ $(document).ready(function () {
                     eventData.push(event[i].Start);
                     eventData.push(event[i].Finish);
                     eventColours.push(event[i].Colour);
-                    alert(event[i].Colour);
+                    //alert(event[i].Colour);
                 }
             }
         });
@@ -419,7 +419,7 @@ $(document).ready(function () {
                     return true;
                 }
                 else {
-                    alert(when + " " + parseInt(curr_date1) + " > " + parseInt(curr_date2) + " " + date22 + " " + date2);
+                    //alert(when + " " + parseInt(curr_date1) + " > " + parseInt(curr_date2) + " " + date22 + " " + date2);
                     return false;
                 }
             }
