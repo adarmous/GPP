@@ -261,6 +261,7 @@
     <Content Include="Views\Events\AllTypes.cshtml" />
     <Content Include="Views\Events\AddType.cshtml" />
     <Content Include="Views\Events\EditTyype.cshtml" />
+    <Content Include="Views\Web.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
