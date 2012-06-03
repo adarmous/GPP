@@ -316,7 +316,7 @@ $(document).ready(function () {
 
                     xCounter++;
 
-                    if (task[i].ProjectId != lastId && i != 0 && task.length - 1 != i) {
+                    if (task[i].ProjectId != lastId && i != 0) {
                         milestonePerProject.push(xCounter);
                         xCounter = 0;
                     }
@@ -330,11 +330,10 @@ $(document).ready(function () {
                         }
                     }
 
-                    if (task.length - 1 == i) {
+                    if (task.length - 1 == i && counter != 0) {
                         milestonePerProject.push(xCounter);
                         xCounter = 0;
                     }
-
 
                     lastId = task[i].ProjectId;
                 }
