@@ -180,7 +180,9 @@
     <Content Include="Scripts\ui-lightness\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Scripts\ui-lightness\jquery-ui-1.8.18.custom.css" />
     <Content Include="Views\Shared\TextFile1.txt" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
