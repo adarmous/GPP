@@ -319,10 +319,9 @@ $(document).ready(function () {
                     //i == 0
                     //i == task.length - 1
 
-                    if (i == 0) {
-                        //if i == 0 you can't tell if task[i] != lastid 
-                        //you have to look ahead but you can only look ahead if i 
-                        if (task.length > 1) {
+
+                    if (task.length != 0) {
+                        if (task.length-1 > i) {
                             if (task[i].ProjectId != task[i + 1].ProjectId) {
                                 milestonePerProject.push(xCounter);
                                 xCounter = 0;
@@ -337,25 +336,9 @@ $(document).ready(function () {
                             xCounter = 0;
                         }
                     }
-                    else if (i == task.length - 1) {
-                        //in this case its the last task so it has to go on.
-                        if (task[i].ProjectId != lastId) {
-                            milestonePerProject.push(xCounter);
-                            xCounter = 0;
-                        }
-                        else {
-                            //not the last task so check if the last one was equal or not
-                            //if not put the last one on the array
-                            if (task[i].ProjectId != lastId) {
-                                milestonePerProject.push(xCounter);
-                                xCounter = 0;
-                            }
-                            else {
-                                //do nothing there is more coming.
-                            }
-                        }
-                    }
-                    
+
+
+
 
                     /* if (task[i].ProjectId != lastId && i != 0) {
                     milestonePerProject.push(xCounter);
