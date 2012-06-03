@@ -9,6 +9,28 @@
     <script src="@Url.Content("~/Scripts/modernizr-1.7.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/graphing.js")" type="text/javascript"></script>
     <meta http-equiv="X-UA-Compatible" content="chrome=1"> 
+
+<script type="text/javascript" 
+   src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+
+  <style>
+   /*
+    CSS rules to use for styling the overlay:
+      .chromeFrameOverlayContent
+      .chromeFrameOverlayContent iframe
+      .chromeFrameOverlayCloseBar
+      .chromeFrameOverlayUnderlay
+   */
+  </style> 
+
+  <script type="text/javascript">
+      // You may want to place these lines inside an onload handler
+      CFInstall.check({
+          mode: "overlay"
+      });
+  </script>
+
+
 </head>
 <body>
     <div class="page">
