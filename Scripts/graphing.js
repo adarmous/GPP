@@ -316,30 +316,25 @@ $(document).ready(function () {
 
                     xCounter++;
 
-                    //its either not equal to the last one or it is
-                    //Not equal to last
-                    //it's either the first or it's a true hit
-                    //it could be both the first and a true hit.
-
-
-
-                    if (task[i].ProjectId != lastId && i != 0) {
+                    if (task[i].ProjectId != lastId && i != 0 && task.length - 1 != i) {
                         milestonePerProject.push(xCounter);
                         xCounter = 0;
                     }
 
-                    if (i == 0) {
+                    if (i == 0 && task.length - 1 != i) {
                         if (task.length > 1) {
                             if (task[i].ProjectId != task[i + 1].ProjectId) {
                                 milestonePerProject.push(xCounter);
                                 xCounter = 0;
                             }
                         }
-                        else if(task.length == 1){
-                            milestonePerProject.push(xCounter);
-                            xCounter = 0;
-                        }
                     }
+
+                    if (task.length - 1 == i) {
+                        milestonePerProject.push(xCounter);
+                        xCounter = 0;
+                    }
+
 
                     lastId = task[i].ProjectId;
                 }
