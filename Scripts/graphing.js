@@ -93,12 +93,12 @@ $(document).ready(function () {
 
 
             if (isDateLessThanDate(Date.parse(realStartDate), Date.parse(eventStart.toDateString()), "drawEventsFirstIf")) {
-                alert(realStartDate + " < " + eventStart.toDateString());
+                //alert(realStartDate + " < " + eventStart.toDateString());
                 if (isDateLessThanDate(Date.parse(eventEnd.toDateString()), Date.parse(realStartDate), "drawEventsSecondIf")) {
                     dontWorry = 1;
                 }
                 else {
-                    alert("here");
+                    //alert("here");
 
                     //startingPoint = getStart + 1;
                     startingPoint = getStart + 1 + weeksBetweenGetStartAndEventStart * spacing;
@@ -107,7 +107,7 @@ $(document).ready(function () {
                 }
             }
             else {
-                alert("hereo");
+                //alert("hereo");
                 startingPoint = getStart + 1 + weeksBetweenGetStartAndEventStart * spacing;
                 dontWorry = 0;
             }
