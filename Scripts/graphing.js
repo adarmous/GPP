@@ -146,7 +146,7 @@ $(document).ready(function () {
             end = gValues[z];
             end = new Date(parseInt(end.substr(6)));
             weeksBetween = weeks_between(Date.parse(realStartDate), Date.parse(end.toDateString()));
-            alert(realStartDate + " " + end.toDateString() + " " + weeksBetween);
+            //alert(realStartDate + " " + end.toDateString() + " " + weeksBetween);
             ctx.fillRect((getStart + 1), yCounter, (weeksBetween * spacing), 40);
             yCounter = yCounter + 45;
             ctx.save();
