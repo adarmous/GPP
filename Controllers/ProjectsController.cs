@@ -107,6 +107,7 @@ namespace GPP.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.Divisionz = new SelectList(Divisions.GetAllDivisions(false), "Id", "Name");
                 return View();
             }
             else
@@ -162,11 +163,16 @@ namespace GPP.Controllers
         //Add a task to a project
         public ActionResult AddMilestoneToProject(string id)
         {
+            SetupMilestone(id);
+            return View();
+        }
+
+        private void SetupMilestone(string id)
+        {
             ViewBag.Id = id;
             ViewBag.Typez = new SelectList(Tyypes.GetMilestoneTypes(), "Id", "Name");
             var projz = Projects.GetProject(id);
             ViewBag.StartAndFinish = "Project: " + projz.Name + " -> Starts: " + projz.BaselineStart + " and Finishes: " + projz.BaselineFinish;
-            return View();
         }
 
         [HttpPost]
@@ -174,6 +180,7 @@ namespace GPP.Controllers
         {
             if (!ModelState.IsValid)
             {
+                SetupMilestone(model.ProjectId.ToString());
                 ViewBag.Typez = new SelectList(Tyypes.GetMilestoneTypes(), "Id", "Name");
                 return View();
             }
@@ -207,6 +214,7 @@ namespace GPP.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.Typez = new SelectList(Tyypes.GetMilestoneTypes(), "Id", "Name", Tasks.GetTask(model.Id.ToString()).TypeId);
                 return View();
             }
             else

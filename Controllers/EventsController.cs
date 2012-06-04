@@ -51,6 +51,7 @@ namespace GPP.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.Tyypes = new SelectList(Types.GetEventTypes(), "Id", "Name");
                 return View();
             }
             else
@@ -78,6 +79,7 @@ namespace GPP.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.Tyypes = new SelectList(Types.GetEventTypes(), "Id", "Name", Types.GetTyype(Events.GetEvent(model.Id.ToString()).EventTypeId.ToString()).Id);
                 return View();
             }
             else
