@@ -43,8 +43,8 @@ $(document).ready(function () {
     });
 
     initCanvas();
-    getParentDivDimensions();
     getSetData();
+    getParentDivDimensions();
     drawGraph();
 
     function runMethods() {
@@ -53,8 +53,9 @@ $(document).ready(function () {
         startingLabel = 14;
         clearCanvas();
         initCanvas();
-        getParentDivDimensions();
+        //getParentDivDimensions();
         getSetData();
+        getParentDivDimensions();
         drawGraph();
     }
 
@@ -64,6 +65,8 @@ $(document).ready(function () {
         divWidth = document.getElementById('main').offsetWidth - 75;
         document.getElementById("graph").width = divWidth;
         document.getElementById("graph").height = divHeight;
+        document.getElementById("graph").style.width = divWidth;
+        document.getElementById("graph").style.height = divHeight;
     }
 
     //Function to draw events
@@ -143,18 +146,20 @@ $(document).ready(function () {
             end = gValues[z];
             end = new Date(parseInt(end.substr(6)));
             weeksBetween = weeks_between(Date.parse(realStartDate), Date.parse(end.toDateString()));
+            alert(realStartDate + " " + end.toDateString() + " " + weeksBetween);
             ctx.fillRect((getStart + 1), yCounter, (weeksBetween * spacing), 40);
             yCounter = yCounter + 45;
             ctx.save();
             ctx.strokeStyle = "#aeddcd";
             ctx.save();
             ctx.rotate(Math.PI / 2);
-            //the graph seems to show less then 52 weeks thats are in the year. 
-            if (weeksBetween < weeksBetweenGraphStartAndFinish - 2.6) {
-                ctx.fillText((end.getDate() + "/" + (end.getMonth() + 1) + "/" + (parseInt(end.getFullYear().toString()) - 2000)), yCounter - 42, -((getStart - 8) + weeksBetween * spacing));
-            }
-            else {
-                ctx.fillText((end.getDate() + "/" + (end.getMonth() + 1) + "/" + (parseInt(end.getFullYear().toString()) - 2000)), yCounter - 40, -divWidth + 10);
+            if (weeksBetween != false) {
+                if (weeksBetween < weeksBetweenGraphStartAndFinish - 2.6) {
+                    ctx.fillText((end.getDate() + "/" + (end.getMonth() + 1) + "/" + (parseInt(end.getFullYear().toString()) - 2000)), yCounter - 42, -((getStart - 8) + weeksBetween * spacing));
+                }
+                else {
+                    ctx.fillText((end.getDate() + "/" + (end.getMonth() + 1) + "/" + (parseInt(end.getFullYear().toString()) - 2000)), yCounter - 40, -divWidth + 10);
+                }
             }
             ctx.restore();
         }
@@ -288,7 +293,6 @@ $(document).ready(function () {
             }
         });
         if (yLabels.length > 10) {
-            //why 45?
             divHeight = divHeight + (yLabels.length - 10) * 45;
             textStart = parseInt(textStart.toString()) + (yLabels.length - 10) * 45;
         }
@@ -321,7 +325,7 @@ $(document).ready(function () {
 
 
                     if (task.length != 0) {
-                        if (task.length-1 > i) {
+                        if (task.length - 1 > i) {
                             if (task[i].ProjectId != task[i + 1].ProjectId) {
                                 milestonePerProject.push(xCounter);
                                 xCounter = 0;
@@ -419,20 +423,24 @@ $(document).ready(function () {
 
     //Function to determine the numbers of weeks between two dates
     function weeks_between(date1, date2) {
+        if (date1 <= date2) {
+            if (isDateLessThanDate(date1, date2, "WeeksBetween")) {
+                // The number of milliseconds in one week
+                var ONE_WEEK = 1000 * 60 * 60 * 24 * 7;
+                // Convert both dates to milliseconds
+                var date1_ms = new Date(date1).getTime();
+                var date2_ms = new Date(date2).getTime();
+                // Calculate the difference in milliseconds
+                var difference_ms = Math.abs(date1_ms - date2_ms);
+                // Convert back to weeks and return weeks
+                return difference_ms / ONE_WEEK;
+            }
+            else {
 
-        if (isDateLessThanDate(date1, date2, "WeeksBetween")) {
-            // The number of milliseconds in one week
-            var ONE_WEEK = 1000 * 60 * 60 * 24 * 7;
-            // Convert both dates to milliseconds
-            var date1_ms = new Date(date1).getTime();
-            var date2_ms = new Date(date2).getTime();
-            // Calculate the difference in milliseconds
-            var difference_ms = Math.abs(date1_ms - date2_ms);
-            // Convert back to weeks and return weeks
-            return difference_ms / ONE_WEEK;
+                return false;
+            }
         }
         else {
-
             return false;
         }
     }
