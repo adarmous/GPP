@@ -1,5 +1,6 @@
 ﻿//Graphing Library for the Graphical Project Portfolio
 //Written by Adam O'Brien
+//where the f is it.
 
 $(document).ready(function () {
     var 
