@@ -1,1 +1,18 @@
-﻿
+﻿Division:
+    @Html.DropDownList("Divisiono", ViewBag.Divisionz as SelectList, new {id = "divisiono"})
+
+	<div class="editor-label">
+            @Html.LabelFor(model => model.Owner)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.Owner, ViewBag.Divisionz as SelectList)
+           
+        </div>
+
+		     <div class="editor-label">
+            @Html.LabelFor(model => model.Owner)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.Owner, ViewBag.Divisionz as SelectList)
+           
+        </div>

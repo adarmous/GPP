@@ -35,6 +35,7 @@ $(document).ready(function () {
     // Canvas Variables
     var cv, ctx;
 
+    //events
     $('#timeframo').change(function () {
         runMethods();
     });
@@ -54,7 +55,6 @@ $(document).ready(function () {
         startingLabel = 14;
         clearCanvas();
         initCanvas();
-        //getParentDivDimensions();
         getSetData();
         getParentDivDimensions();
         drawGraph();
@@ -68,6 +68,7 @@ $(document).ready(function () {
         document.getElementById("graph").height = divHeight;
         document.getElementById("graph").style.width = divWidth;
         document.getElementById("graph").style.height = divHeight;
+        ctx.font = '10px Verdana';
     }
 
     //Function to draw events
@@ -80,7 +81,6 @@ $(document).ready(function () {
         var spacing = getTextSpacing();
         var dontWorry = 0;
         var nameCount = 0;
-
         var startingPoint = 0;
         for (z = 0; z < eventData.length; z = z + 2) {
             ctx.fillStyle = eventColours[nameCount];
@@ -90,35 +90,30 @@ $(document).ready(function () {
             eventEnd = new Date(parseInt(eventData[z + 1].substr(6)));
             weeksBetweenGetStartAndEventStart = weeks_between(Date.parse(realStartDate), Date.parse(eventStart.toDateString()));
             weeksBetween = weeks_between(Date.parse(realStartDate), Date.parse(eventEnd.toDateString()));
-
-
             if (isDateLessThanDate(Date.parse(realStartDate), Date.parse(eventStart.toDateString()), "drawEventsFirstIf")) {
-                //alert(realStartDate + " < " + eventStart.toDateString());
                 if (isDateLessThanDate(Date.parse(eventEnd.toDateString()), Date.parse(realStartDate), "drawEventsSecondIf")) {
                     dontWorry = 1;
                 }
                 else {
-                    //alert("here");
-
-                    //startingPoint = getStart + 1;
                     startingPoint = getStart + 1 + weeksBetweenGetStartAndEventStart * spacing;
                     weeksBetween = weeks_between(Date.parse(realStartDate), Date.parse(eventEnd.toDateString()));
                     dontWorry = 0;
                 }
             }
             else {
-                //alert("hereo");
                 startingPoint = getStart + 1 + weeksBetweenGetStartAndEventStart * spacing;
                 dontWorry = 0;
             }
 
-            if (dontWorry == 0 || dontWorry < 1) {
+            if (dontWorry == 0) {
                 ctx.fillRect(startingPoint, 0, (weeksBetween * spacing), divHeight - 100);
                 ctx.save();
                 ctx.rotate(Math.PI / 2);
                 if (weeksBetween >= 0.5) {
                     ctx.fillStyle = "#000000";
+                    ctx.globalAlpha = 1;
                     ctx.fillText(eventName, ((divHeight - 105) - ctx.measureText(eventName).width), -(startingPoint + 1 + weeksBetween * spacing) + 10);
+                    ctx.globalAlpha = 0.2;
                 }
                 ctx.restore();
                 ctx.save();
@@ -146,25 +141,28 @@ $(document).ready(function () {
         var weeksBetween;
         var weeksBetweenGraphStartAndFinish = weeks_between(Date.parse(realStartDate), Date.parse(realFinishDate));
         for (z = 1; z < gValues.length; z = z + 2) {
-            ctx.strokeStyle = "#efefef";
-            ctx.globalAlpha = 0.3;
+            ctx.strokeStyle = "#ffffff";
+            ctx.globalAlpha = 0.2;
             ctx.save();
             end = gValues[z];
             end = new Date(parseInt(end.substr(6)));
             weeksBetween = weeks_between(Date.parse(realStartDate), Date.parse(end.toDateString()));
-            //alert(realStartDate + " " + end.toDateString() + " " + weeksBetween);
             ctx.fillRect((getStart + 1), yCounter, (weeksBetween * spacing), 40);
             yCounter = yCounter + 45;
-            ctx.save();
-            ctx.strokeStyle = "#aeddcd";
-            ctx.save();
+            //ctx.save();
+            //ctx.strokeStyle = "#cccccc";
+            //ctx.save();
             ctx.rotate(Math.PI / 2);
             if (weeksBetween != false) {
-                if (weeksBetween < weeksBetweenGraphStartAndFinish - 2.6) {
-                    ctx.fillText((end.getDate() + "/" + (end.getMonth() + 1) + "/" + (parseInt(end.getFullYear().toString()) - 2000)), yCounter - 42, -((getStart - 8) + weeksBetween * spacing));
+                if (weeksBetween < weeksBetweenGraphStartAndFinish - 1.6) {
+                    ctx.globalAlpha = 1;
+                    ctx.fillText((end.getDate() + "/" + (end.getMonth() + 1) + "/" + (parseInt(end.getFullYear().toString()) - 2000)), yCounter - 45, -((getStart - 8) + weeksBetween * spacing));
+                    ctx.globalAlpha = 0.2;
                 }
                 else {
-                    ctx.fillText((end.getDate() + "/" + (end.getMonth() + 1) + "/" + (parseInt(end.getFullYear().toString()) - 2000)), yCounter - 40, -divWidth + 10);
+                    ctx.globalAlpha = 1;
+                    ctx.fillText((end.getDate() + "/" + (end.getMonth() + 1) + "/" + (parseInt(end.getFullYear().toString()) - 2000)), yCounter - 45, -divWidth + 10);
+                    ctx.globalAlpha = 0.2;
                 }
             }
             ctx.restore();
@@ -183,12 +181,8 @@ $(document).ready(function () {
             var nextId = 0;
             var zCounter = 0;
             var name = "";
-            //alert("here in projectlength world" + milestonePerProject.length);
             for (c = 0; c < milestonePerProject.length; c++) {
-                //alert("this is c: " + c);
                 for (b = 0; b < milestonePerProject[c]; b++) {
-                    //alert("this is b(inside loop): " + b + " this is c: " + c);
-                    //alert(c + " " + b);
                     ctx.fillStyle = taskColours[nameCounter];
                     name = tLabels[nameCounter];
                     nameCounter++;
@@ -211,7 +205,6 @@ $(document).ready(function () {
                         ctx.fillStyle = "#ffffff";
                         ctx.fillText(name, taskStart, yCounter + 20);
                     }
-
                 }
                 yCounter = yCounter + 45;
             }
@@ -224,7 +217,6 @@ $(document).ready(function () {
         setupYAxisLabels();
         getStart = getDistanceOfText();
         var spacing = getTextSpacing();
-
         ctx.save();
         ctx.rotate(Math.PI / 2);
         ctx.fillText(realStartDate, parseInt(textStart.toString()), -(getStart + 1));
@@ -235,11 +227,11 @@ $(document).ready(function () {
         }
         ctx.restore();
         ctx.lineWidth = 1;
-        ctx.globalAlpha = 1;
-        ctx.strokeStyle = "#000000";
         ctx.save();
         drawLine(ctx, getStart, 0, getStart, divHeight);
         drawLine(ctx, 0, divHeight - 100, divWidth, divHeight - 100);
+
+        ctx.font = '9px Verdana';
 
         drawBars();
         drawTasks();
@@ -289,12 +281,12 @@ $(document).ready(function () {
             url: "../Projects/GetProjectData",
             success: function (project) {
                 for (i = 0; i < project.length; i++) {
-                    if (dropdownDivision == project[i].OwnerName || dropdownDivision == "ALL") {
+                    //if (dropdownDivision == project[i].OwnerName || dropdownDivision == "ALL") {
                         yLabels.push(project[i].Name);
                         gValues.push(project[i].BaselineStart);
                         gValues.push(project[i].BaselineFinish);
                         ownerValues.push(project[i].OwnerName);
-                    }
+                   // }
                 }
             }
         });
@@ -346,30 +338,6 @@ $(document).ready(function () {
                             xCounter = 0;
                         }
                     }
-
-
-
-
-                    /* if (task[i].ProjectId != lastId && i != 0) {
-                    milestonePerProject.push(xCounter);
-                    xCounter = 0;
-                    }
-
-                    if (i == 0 && task.length - 1 != i) {
-                    if (task.length > 1) {
-                    if (task[i].ProjectId != task[i + 1].ProjectId) {
-                    milestonePerProject.push(xCounter);
-                    xCounter = 0;
-                    }
-                    }
-                    }
-
-                    if (task.length - 1 == i && counter != 0) {
-                    milestonePerProject.push(xCounter);
-                    xCounter = 0;
-                    }
-                    */
-
                     lastId = task[i].ProjectId;
                 }
             }

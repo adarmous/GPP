@@ -46,13 +46,7 @@
             @Html.ValidationMessageFor(model => model.Closed)
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Owner)
-        </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.Owner, ViewBag.Divisionz as SelectList)
-           
-        </div>
+   
 
         <p>
             <input type="submit" value="Save" />

@@ -83,7 +83,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Copy of Site.css" />
     <Content Include="Content\images\logo.jpg" />
     <Content Include="Content\images\logo.jpg" />
     <Content Include="Content\images\nib.ico" />
