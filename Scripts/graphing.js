@@ -10,7 +10,7 @@ $(document).ready(function () {
         divHeight = 560,
     //would be 22.5 but have to account for the border.
         startingLabel = 23.5,
-        textStart = 468,
+        textStart = 465,
         realStartDate,
         realFinishDate,
         dropdownMonths,
@@ -50,7 +50,7 @@ $(document).ready(function () {
     drawGraph();
 
     function runMethods() {
-        textStart = 468;
+        textStart = 465;
         divHeight = 560;
         startingLabel = 14;
         clearCanvas();
