@@ -44,6 +44,11 @@ $(document).ready(function () {
         runMethods();
     });
 
+    $(window).resize(function () {
+        runMethods();
+    });
+
+
     initCanvas();
     getSetData();
     getParentDivDimensions();
@@ -63,12 +68,16 @@ $(document).ready(function () {
     //Function to get the divWidth, set the canvas width and height
     function getParentDivDimensions() {
         //account for the padding offset
-        divWidth = document.getElementById('main').offsetWidth - 75;
+        //alert("before" + divWidth);
+        if (divWidth == 0) {
+            divWidth = document.getElementById('main').offsetWidth - 75;
+        }
         document.getElementById("graph").width = divWidth;
         document.getElementById("graph").height = divHeight;
         document.getElementById("graph").style.width = divWidth;
         document.getElementById("graph").style.height = divHeight;
-        ctx.font = '10px Verdana';
+        //alert("after" + document.getElementById("graph").width);
+        ctx.font = '9px Verdana';
     }
 
     //Function to draw events
@@ -231,7 +240,7 @@ $(document).ready(function () {
         drawLine(ctx, getStart, 0, getStart, divHeight);
         drawLine(ctx, 0, divHeight - 100, divWidth, divHeight - 100);
 
-        ctx.font = '9px Verdana';
+        ctx.font = '8.5px Verdana';
 
         drawBars();
         drawTasks();
@@ -282,11 +291,11 @@ $(document).ready(function () {
             success: function (project) {
                 for (i = 0; i < project.length; i++) {
                     //if (dropdownDivision == project[i].OwnerName || dropdownDivision == "ALL") {
-                        yLabels.push(project[i].Name);
-                        gValues.push(project[i].BaselineStart);
-                        gValues.push(project[i].BaselineFinish);
-                        ownerValues.push(project[i].OwnerName);
-                   // }
+                    yLabels.push(project[i].Name);
+                    gValues.push(project[i].BaselineStart);
+                    gValues.push(project[i].BaselineFinish);
+                    ownerValues.push(project[i].OwnerName);
+                    // }
                 }
             }
         });
@@ -447,13 +456,6 @@ $(document).ready(function () {
                 }
             }
         }
-    }
-
-
-
-    //Function to return a random colour
-    function GetRandomColour() {
-        return '#' + Math.floor(Math.random() * 16777215).toString(16);
     }
 
     /*Reset Functions*/
