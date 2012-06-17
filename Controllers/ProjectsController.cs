@@ -34,14 +34,6 @@ namespace GPP.Controllers
             return View();
         }
 
-        public ActionResult PrintGraph()
-        {
-            ViewBag.Timeframez = new SelectList(Timeframes.GetAllTimeframes(), "Months", "Name", Timeframes.GetDefaultTimeframe().ToString());
-            ViewBag.Divisionz = new SelectList(Divisions.GetAllDivisions(true), "Id", "Name", Divisions.GetSelectedDefault().ToString());
-
-            return View();
-        }
-
         public ActionResult AllProjects()
         {
             var projects = Projects.GetAllProjects();

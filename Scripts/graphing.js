@@ -82,6 +82,7 @@ $(document).ready(function () {
 
     //Function to draw events
     function drawEvents() {
+
         var eventStart;
         var eventEnd;
         var eventName;
@@ -91,27 +92,41 @@ $(document).ready(function () {
         var dontWorry = 0;
         var nameCount = 0;
         var startingPoint = 0;
+
         for (z = 0; z < eventData.length; z = z + 2) {
+
             ctx.fillStyle = eventColours[nameCount];
+            ctx.save();
+
             eventName = eventLabels[nameCount];
+
             nameCount++;
+
             eventStart = new Date(parseInt(eventData[z].substr(6)));
             eventEnd = new Date(parseInt(eventData[z + 1].substr(6)));
+
             weeksBetweenGetStartAndEventStart = weeks_between(Date.parse(realStartDate), Date.parse(eventStart.toDateString()));
             weeksBetween = weeks_between(Date.parse(realStartDate), Date.parse(eventEnd.toDateString()));
+
+            //if current date (realStartDate) < Event Start)
             if (isDateLessThanDate(Date.parse(realStartDate), Date.parse(eventStart.toDateString()), "drawEventsFirstIf")) {
-                if (isDateLessThanDate(Date.parse(eventEnd.toDateString()), Date.parse(realStartDate), "drawEventsSecondIf")) {
+                startingPoint = getStart + 1 + (weeksBetweenGetStartAndEventStart * spacing);
+                weeksBetween = weeks_between(Date.parse(eventStart.toDateString()), Date.parse(eventEnd.toDateString()));
+
+                dontWorry = 0;
+            }
+            else {
+                //6/7 < 17/6
+                if (isDateLessThanDate(Date.parse(eventEnd.toDateString()), Date.parse(realStartDate), "ballSoup")) {
                     dontWorry = 1;
+                    alert(eventEnd.toDateString() + " < " + realStartDate);
                 }
                 else {
-                    startingPoint = getStart + 1 + weeksBetweenGetStartAndEventStart * spacing;
+                    //alert(eventName + " " + "here");
+                    startingPoint = getStart + 1;
                     weeksBetween = weeks_between(Date.parse(realStartDate), Date.parse(eventEnd.toDateString()));
                     dontWorry = 0;
                 }
-            }
-            else {
-                startingPoint = getStart + 1 + weeksBetweenGetStartAndEventStart * spacing;
-                dontWorry = 0;
             }
 
             if (dontWorry == 0) {
@@ -147,21 +162,40 @@ $(document).ready(function () {
         //the border counts as a 1
         var yCounter = 1;
         var end;
+        var start;
         var weeksBetween;
+        var startingPoint;
         var weeksBetweenGraphStartAndFinish = weeks_between(Date.parse(realStartDate), Date.parse(realFinishDate));
+        var weeksBetweenGetStartAndProjectStart;
         for (z = 1; z < gValues.length; z = z + 2) {
+
+
+
             ctx.globalAlpha = 0.2;
             ctx.save();
+            start = gValues[z - 1];
+            start = new Date(parseInt(start.substr(6)));
             end = gValues[z];
             end = new Date(parseInt(end.substr(6)));
             weeksBetween = weeks_between(Date.parse(realStartDate), Date.parse(end.toDateString()));
-            ctx.fillRect((getStart + 1), yCounter, (weeksBetween * spacing), 40);
+            weeksBetweenGetStartAndProjectStart = weeks_between(Date.parse(realStartDate), Date.parse(start.toDateString()));
+
+
+            if (isDateLessThanDate(Date.parse(realStartDate), Date.parse(start.toDateString()), "drawBarz")) {
+                alert("here");
+                startingPoint = getStart + 1 + (weeksBetweenGetStartAndProjectStart * spacing);
+            }
+            else {
+                startingPoint = getStart + 1;
+            }
+
+            ctx.fillRect(startingPoint, yCounter, (weeksBetween * spacing), 40);
             yCounter = yCounter + 45;
             ctx.rotate(Math.PI / 2);
             if (weeksBetween != false) {
                 if (weeksBetween < weeksBetweenGraphStartAndFinish - 1.6) {
                     ctx.globalAlpha = 1;
-                    ctx.fillText((end.getDate() + "/" + (end.getMonth() + 1) + "/" + (parseInt(end.getFullYear().toString()) - 2000)), yCounter - 45, -((getStart - 8) + weeksBetween * spacing));
+                    ctx.fillText((end.getDate() + "/" + (end.getMonth() + 1) + "/" + (parseInt(end.getFullYear().toString()) - 2000)), yCounter - 45, -((startingPoint - 8) + weeksBetween * spacing));
                     ctx.globalAlpha = 0.2;
                 }
                 else {
@@ -435,17 +469,27 @@ $(document).ready(function () {
         var curr_year1 = date12.getFullYear();
         var curr_date2 = date22.getDate();
         var curr_month2 = date22.getMonth() + 1;
-        var curr_year2 = date22.getFullYear(); //alert("days: " + curr_date1 + " " + curr_date2 + " months: " + curr_month1 + " " + curr_month2 + " years: " + curr_year1 + " " + curr_year2);
+        var curr_year2 = date22.getFullYear();
+
+        if (when == "ballSoup") {
+            //alert("years: " + curr_year1 + "<" + curr_year2 + " months: " + curr_month1 + "<" + curr_month2);
+        }
 
         if (parseInt(curr_year1) < parseInt(curr_year2)) {
             return true;
+        }
+        else if (parseInt(curr_year1) > parseInt(curr_year2)) {
+            return false;
         }
         else {
             if (parseInt(curr_month1) < parseInt(curr_month2)) {
                 return true;
             }
+            else if (parseInt(curr_month1) > parseInt(curr_month2)) {
+                return false;
+            }
             else {
-                if (parseInt(curr_date1) < parseInt(curr_date2)) {
+                if (parseInt(curr_date1) <= parseInt(curr_date2)) {
                     return true;
                 }
                 else {
