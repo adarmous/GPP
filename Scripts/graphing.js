@@ -182,7 +182,6 @@ $(document).ready(function () {
 
 
             if (isDateLessThanDate(Date.parse(realStartDate), Date.parse(start.toDateString()), "drawBarz")) {
-                alert("here");
                 startingPoint = getStart + 1 + (weeksBetweenGetStartAndProjectStart * spacing);
             }
             else {
