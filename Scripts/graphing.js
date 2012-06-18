@@ -165,6 +165,7 @@ $(document).ready(function () {
         var barCounter = 0;
         var end;
         var start;
+        var conter = 0;
         var weeksBetween;
         var startingPoint;
         var weeksBetweenGraphStartAndFinish = weeks_between(Date.parse(realStartDate), Date.parse(realFinishDate));
@@ -206,7 +207,8 @@ $(document).ready(function () {
             ctx.restore();
 
             if (weeksBetween != false) {
-                drawTasksForBar(barCounter, cCounter);
+                //alert(barCounter + " " + cCounter);
+                conter = drawTasksForBar(barCounter, cCounter, conter);
             }
 
             barCounter = barCounter + 1;
@@ -216,22 +218,32 @@ $(document).ready(function () {
     }
 
     //function to draw tasks
-    function drawTasksForBar(c, yCounter) {
+    function drawTasksForBar(c, yCounter, xer) {
 
         var spacing = getTextSpacing();
-        var xCounter = 0;
+        var xCounter;
+        if (xer > 0) {
+            xCounter = xer;
+        }
+        else {
+            xCounter = 0;
+        }
         var nameCounter = 0;
         var name, start, end, taskStart, weeksBetween;
         var currentId = 0;
         var nextId = 0;
         var zCounter = 0;
         var name = "";
-
+        var bar = c;
         for (b = 0; b < milestonePerProject[c]; b++) {
-            //alert(c + " " + b);
-            ctx.fillStyle = taskColours[nameCounter];
-            name = tLabels[nameCounter];
-            nameCounter++;
+
+
+            name = tLabels[bar];
+            ctx.fillStyle = taskColours[bar];
+
+            bar++;
+
+
             xCounter++;
             start = new Date(parseInt(milestoneValues[xCounter].substr(6)));
             xCounter++;
@@ -239,20 +251,21 @@ $(document).ready(function () {
             xCounter++;
 
             if (Date.parse(start.toDateString()) <= Date.parse(realStartDate)) {
-                taskStart = getStart;
+                taskStart = getStart + 1;
                 weeksBetween = weeks_between(Date.parse(realStartDate), Date.parse(end.toDateString()));
                 ctx.fillRect(taskStart, yCounter, (weeksBetween * spacing), 40);
                 ctx.fillStyle = "#000000";
-                ctx.fillText(name, taskStart, yCounter + 20);
+                ctx.fillText(name, taskStart + 2, yCounter + 20);
             }
             else {
-                taskStart = getStart + weeks_between(Date.parse(realStartDate), Date.parse(start.toDateString())) * spacing;
+                taskStart = getStart + 1 + weeks_between(Date.parse(realStartDate), Date.parse(start.toDateString())) * spacing;
                 weeksBetween = weeks_between(Date.parse(start.toDateString()), Date.parse(end.toDateString()));
                 ctx.fillRect(taskStart, yCounter, (weeksBetween * spacing), 40);
                 ctx.fillStyle = "#000000";
-                ctx.fillText(name, taskStart, yCounter + 20);
+                ctx.fillText(name, taskStart + 2, yCounter + 20);
             }
         }
+        return xCounter;
     }
 
     //main draw graph function
@@ -352,6 +365,7 @@ $(document).ready(function () {
     function getTaskData() {
         var xCounter = 0;
         var lastId = 0;
+        var superCount = 0;
         var currentId = 0;
         $.ajax({
             async: false,
@@ -359,6 +373,7 @@ $(document).ready(function () {
             success: function (task) {
                 for (i = 0; i < task.length; i++) {
                     tLabels.push(task[i].Name);
+                    alert(task[i].Name);
                     milestoneValues.push(task[i].ProjectId);
                     milestoneValues.push(task[i].BaselineStart);
                     milestoneValues.push(task[i].BaselineFinish);
@@ -374,29 +389,26 @@ $(document).ready(function () {
                     if (task.length != 0) {
                         if (task.length - 1 > i) {
                             if (task[i].ProjectId != task[i + 1].ProjectId) {
-                               
-                                milestonePerProject.push(xCounter);
+                                milestonePerProject[superCount] = xCounter;
                                 xCounter = 0;
                             }
                             else {
-                                
-                                //do nothing as there is another one like this and will be picked up in the next loop cycle
+                                superCount--;
                             }
                         }
                         else {
-                            //task length is 1 and its the only one you have to push on.
-
-                            milestonePerProject.push(xCounter);
+                            superCount++;
+                            milestonePerProject[superCount] = xCounter;
                             xCounter = 0;
                         }
                     }
-                    
-                    lastId = task[i].ProjectId;
+                    superCount++;
+                    //lastId = task[i].ProjectId;
                 }
             }
         });
 
-        alert(milestonePerProject[0] + " " + milestonePerProject[1] + " " + milestonePerProject[2]);
+        //alert(milestonePerProject[0] + " " + milestonePerProject[1] + " " + milestonePerProject[2] + " " + milestonePerProject[3]);
     }
 
     //function return event data
