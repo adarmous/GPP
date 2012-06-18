@@ -22,7 +22,7 @@ namespace GPP.Controllers
 
         public JsonResult GetEventData()
         {
-            var evs = Events.GetAllEvents();
+            var evs = Events.GetAllOpenEvents();
             return Json(evs, JsonRequestBehavior.AllowGet);
         }
 
