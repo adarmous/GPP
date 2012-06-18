@@ -373,7 +373,7 @@ $(document).ready(function () {
             success: function (task) {
                 for (i = 0; i < task.length; i++) {
                     tLabels.push(task[i].Name);
-                    alert(task[i].Name);
+                    //alert(task[i].Name);
                     milestoneValues.push(task[i].ProjectId);
                     milestoneValues.push(task[i].BaselineStart);
                     milestoneValues.push(task[i].BaselineFinish);
