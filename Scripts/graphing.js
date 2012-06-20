@@ -246,7 +246,7 @@ $(document).ready(function () {
             end = new Date(parseInt(milestoneValues[xCounter].substr(6)));
             xCounter++;
             ctx.fillStyle = milestoneValues[xCounter];
-            alert(milestoneValues[xCounter]);
+            //alert(milestoneValues[xCounter]);
 
             if (milestoneValues.length > b + 1) {
                 xCounter++;
