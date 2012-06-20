@@ -227,7 +227,7 @@ $(document).ready(function () {
     //function to draw tasks
     function drawTasksForBar(yCounter, id) {
         getTaskDataForProject(id);
-        ctx.globalAlpha = 1.0;
+        ctx.globalAlpha = 0.6;
         var spacing = getTextSpacing();
         var xCounter = 0;
         var nameCounter = 0;
@@ -257,7 +257,7 @@ $(document).ready(function () {
                 weeksBetween = weeks_between(Date.parse(realStartDate), Date.parse(end.toDateString()));
                 ctx.fillRect(taskStart, yCounter, (weeksBetween * spacing), 40);
                 ctx.fillStyle = "#000000";
-                ctx.globalAlpha = 1.0;
+          
                 ctx.fillText(name, taskStart + 2, yCounter + 20);
             }
             else {
@@ -265,7 +265,7 @@ $(document).ready(function () {
                 weeksBetween = weeks_between(Date.parse(start.toDateString()), Date.parse(end.toDateString()));
                 ctx.fillRect(taskStart, yCounter, (weeksBetween * spacing), 40);
                 ctx.fillStyle = "#000000";
-                ctx.globalAlpha = 1.0;
+                
                 ctx.fillText(name, taskStart + 2, yCounter + 20);
             }
             //restore();
