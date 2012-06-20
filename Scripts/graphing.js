@@ -83,7 +83,7 @@ $(document).ready(function () {
 
     //Function to draw events
     function drawEvents() {
-
+        ctx.globalAlpha = 0.2;
         var eventStart;
         var eventEnd;
         var eventName;
@@ -136,9 +136,10 @@ $(document).ready(function () {
                 ctx.rotate(Math.PI / 2);
                 if (weeksBetween >= 0.5) {
                     ctx.fillStyle = "#000000";
-                    ctx.globalAlpha = 1;
+                    ctx.globalAlpha = 1.0;
+                    ctx.fillText(eventName, 5, -(startingPoint + 1 + weeksBetween * spacing) + 10);
                     ctx.fillText(eventName, ((divHeight - 105) - ctx.measureText(eventName).width), -(startingPoint + 1 + weeksBetween * spacing) + 10);
-                    ctx.globalAlpha = 0.2;
+                    //ctx.globalAlpha = 0.2;
                 }
                 ctx.restore();
                 ctx.save();
@@ -212,7 +213,7 @@ $(document).ready(function () {
 
             if (weeksBetween != false) {
                 if (projids[projectIdCount] != undefined) {
-  
+
                     drawTasksForBar(cCounter, projids[projectIdCount]);
                     milestoneValues.length = 0;
                 }
@@ -226,7 +227,7 @@ $(document).ready(function () {
     //function to draw tasks
     function drawTasksForBar(yCounter, id) {
         getTaskDataForProject(id);
-
+        ctx.globalAlpha = 1.0;
         var spacing = getTextSpacing();
         var xCounter = 0;
         var nameCounter = 0;
@@ -245,6 +246,7 @@ $(document).ready(function () {
             end = new Date(parseInt(milestoneValues[xCounter].substr(6)));
             xCounter++;
             ctx.fillStyle = milestoneValues[xCounter];
+            alert(milestoneValues[xCounter]);
 
             if (milestoneValues.length > b + 1) {
                 xCounter++;
@@ -255,6 +257,7 @@ $(document).ready(function () {
                 weeksBetween = weeks_between(Date.parse(realStartDate), Date.parse(end.toDateString()));
                 ctx.fillRect(taskStart, yCounter, (weeksBetween * spacing), 40);
                 ctx.fillStyle = "#000000";
+                ctx.globalAlpha = 1.0;
                 ctx.fillText(name, taskStart + 2, yCounter + 20);
             }
             else {
@@ -262,8 +265,10 @@ $(document).ready(function () {
                 weeksBetween = weeks_between(Date.parse(start.toDateString()), Date.parse(end.toDateString()));
                 ctx.fillRect(taskStart, yCounter, (weeksBetween * spacing), 40);
                 ctx.fillStyle = "#000000";
+                ctx.globalAlpha = 1.0;
                 ctx.fillText(name, taskStart + 2, yCounter + 20);
             }
+            //restore();
         }
     }
 
@@ -369,7 +374,7 @@ $(document).ready(function () {
                 }
             }
         });
-   
+
     }
 
     //function return event data
