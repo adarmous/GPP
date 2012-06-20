@@ -23,6 +23,7 @@ $(document).ready(function () {
     var yLabels = [];
     var bLabels = [];
     var eLabels = [];
+    var projids = [];
     var ownerValues = [];
     var milestonePerProject = [];
     var tLabels = [];
@@ -158,6 +159,7 @@ $(document).ready(function () {
 
     //function to draw projects
     function drawBars() {
+
         var spacing = getTextSpacing();
         //the border counts as a 1
         var yCounter = 1;
@@ -168,6 +170,8 @@ $(document).ready(function () {
         var conter = 0;
         var weeksBetween;
         var startingPoint;
+        var projectIdCount = 0;
+
         var weeksBetweenGraphStartAndFinish = weeks_between(Date.parse(realStartDate), Date.parse(realFinishDate));
         var weeksBetweenGetStartAndProjectStart;
         for (z = 1; z < gValues.length; z = z + 2) {
@@ -207,48 +211,44 @@ $(document).ready(function () {
             ctx.restore();
 
             if (weeksBetween != false) {
-                //alert(barCounter + " " + cCounter);
-                conter = drawTasksForBar(barCounter, cCounter, conter);
+                if (projids[projectIdCount] != undefined) {
+  
+                    drawTasksForBar(cCounter, projids[projectIdCount]);
+                    milestoneValues.length = 0;
+                }
             }
 
-            barCounter = barCounter + 1;
+            projectIdCount = projectIdCount + 1;
             cCounter = cCounter + 45;
-
         }
     }
 
     //function to draw tasks
-    function drawTasksForBar(c, yCounter, xer) {
+    function drawTasksForBar(yCounter, id) {
+        getTaskDataForProject(id);
 
         var spacing = getTextSpacing();
-        var xCounter;
-        if (xer > 0) {
-            xCounter = xer;
-        }
-        else {
-            xCounter = 0;
-        }
+        var xCounter = 0;
         var nameCounter = 0;
         var name, start, end, taskStart, weeksBetween;
-        var currentId = 0;
-        var nextId = 0;
+
         var zCounter = 0;
         var name = "";
-        var bar = c;
-        for (b = 0; b < milestonePerProject[c]; b++) {
 
+        for (b = 0; b < milestoneValues.length / 5; b++) {
 
-            name = tLabels[bar];
-            ctx.fillStyle = taskColours[bar];
-
-            bar++;
-
-
+            name = milestoneValues[xCounter];
+            xCounter++;
             xCounter++;
             start = new Date(parseInt(milestoneValues[xCounter].substr(6)));
             xCounter++;
             end = new Date(parseInt(milestoneValues[xCounter].substr(6)));
             xCounter++;
+            ctx.fillStyle = milestoneValues[xCounter];
+
+            if (milestoneValues.length > b + 1) {
+                xCounter++;
+            }
 
             if (Date.parse(start.toDateString()) <= Date.parse(realStartDate)) {
                 taskStart = getStart + 1;
@@ -265,7 +265,6 @@ $(document).ready(function () {
                 ctx.fillText(name, taskStart + 2, yCounter + 20);
             }
         }
-        return xCounter;
     }
 
     //main draw graph function
@@ -278,6 +277,7 @@ $(document).ready(function () {
         ctx.rotate(Math.PI / 2);
         ctx.fillText(realStartDate, parseInt(textStart.toString()), -(getStart + 1));
         var z = -(getStart + 1) - spacing;
+
         for (k = 0; k < bLabels.length; k++) {
 
             ctx.fillText(bLabels[k].toString(), parseInt(textStart.toString()), z);
@@ -295,7 +295,6 @@ $(document).ready(function () {
         ctx.font = '8.5px Verdana';
 
         drawBars();
-        //drawTasks();
         drawEvents();
     }
 
@@ -305,7 +304,6 @@ $(document).ready(function () {
     function getSetData() {
         setRealDateValues();
         getProjectData();
-        getTaskData();
         getEventData();
     }
 
@@ -324,10 +322,8 @@ $(document).ready(function () {
     }
 
     /*Data Functions*/
-
     function setRealDateValues() {
         dropdownMonths = $("#timeframo").val();
-        //find jquery way to do this
         dropdownDivision = $("#divisiono option:selected").text().toUpperCase();
         realStartDate = new Date().toDateString();
         realFinishDate = new Date();
@@ -342,12 +338,11 @@ $(document).ready(function () {
             url: "../Projects/GetProjectData",
             success: function (project) {
                 for (i = 0; i < project.length; i++) {
-                    //if (dropdownDivision == project[i].OwnerName || dropdownDivision == "ALL") {
+                    projids.push(project[i].Id);
                     yLabels.push(project[i].Name);
                     gValues.push(project[i].BaselineStart);
                     gValues.push(project[i].BaselineFinish);
                     ownerValues.push(project[i].OwnerName);
-                    // }
                 }
             }
         });
@@ -357,58 +352,24 @@ $(document).ready(function () {
         }
     }
 
-    function ArrayContains(value) {
-        return true;
-    }
-
-    //function to return task data
-    function getTaskData() {
-        var xCounter = 0;
-        var lastId = 0;
-        var superCount = 0;
-        var currentId = 0;
+    //Get Milestone Tasks for an individual Project
+    function getTaskDataForProject(id) {
+        var stringo = "../Projects/GetMilestoneDataForProject/" + id;
         $.ajax({
             async: false,
-            url: "../Projects/GetMilestoneData",
+            url: stringo,
             success: function (task) {
                 for (i = 0; i < task.length; i++) {
-                    tLabels.push(task[i].Name);
-                    //alert(task[i].Name);
-                    milestoneValues.push(task[i].ProjectId);
-                    milestoneValues.push(task[i].BaselineStart);
-                    milestoneValues.push(task[i].BaselineFinish);
-                    taskColours.push(task[i].Colour);
 
-                    xCounter++;
-
-                    //i == 0
-                    //i == task.length - 1
-
-                    //alert(xCounter + " " + task[i].ProjectId);
-
-                    if (task.length != 0) {
-                        if (task.length - 1 > i) {
-                            if (task[i].ProjectId != task[i + 1].ProjectId) {
-                                milestonePerProject[superCount] = xCounter;
-                                xCounter = 0;
-                            }
-                            else {
-                                superCount--;
-                            }
-                        }
-                        else {
-                            superCount++;
-                            milestonePerProject[superCount] = xCounter;
-                            xCounter = 0;
-                        }
-                    }
-                    superCount++;
-                    //lastId = task[i].ProjectId;
+                    milestoneValues.push(task[i].Name); //0 5
+                    milestoneValues.push(task[i].ProjectId); //1 6 
+                    milestoneValues.push(task[i].BaselineStart); //2
+                    milestoneValues.push(task[i].BaselineFinish); //3
+                    milestoneValues.push(task[i].Colour); //4
                 }
             }
         });
-
-        //alert(milestonePerProject[0] + " " + milestonePerProject[1] + " " + milestonePerProject[2] + " " + milestonePerProject[3]);
+   
     }
 
     //function return event data
@@ -422,13 +383,10 @@ $(document).ready(function () {
                     eventData.push(event[i].Start);
                     eventData.push(event[i].Finish);
                     eventColours.push(event[i].Colour);
-                    //alert(event[i].Colour);
                 }
             }
         });
     }
-
-    /*Core Functions*/
 
     //Function to draw a line
     function drawLine(contextO, startx, starty, endx, endy) {
@@ -547,6 +505,7 @@ $(document).ready(function () {
         milestonePerProject.length = 0;
         taskColours.length = 0;
         eventColours.length = 0;
+        projids = [];
     }
 
 

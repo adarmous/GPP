@@ -58,6 +58,12 @@ namespace GPP.Controllers
             return Json(tasks, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetMilestoneDataForProject(string id)
+        {
+            var tasks = Tasks.GetTasksForProject(id);
+            return Json(tasks, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult AddTimeframe()
         {
             return View();
