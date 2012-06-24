@@ -99,7 +99,6 @@
     <Content Include="Content\js\libs\jquery-1.7.2.min.js" />
     <Content Include="Content\js\libs\modernizr-2.5.3.min.js" />
     <Content Include="Content\js\plugins.js" />
-    <Content Include="Content\js\script.js" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -164,7 +163,7 @@
     <Content Include="Scripts\flot\NEWS.txt" />
     <Content Include="Scripts\flot\PLUGINS.txt" />
     <Content Include="Scripts\flot\README.txt" />
-    <Content Include="Scripts\graphing.js" />
+    <Content Include="Content\js\graphing.js" />
     <Content Include="Scripts\jquery-1.5.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.5.1.js" />
     <Content Include="Scripts\jquery-1.5.1.min.js" />
