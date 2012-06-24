@@ -92,9 +92,14 @@
     <Content Include="Bin\GPP.Library.pdb" />
     <Content Include="Bin\GPP.pdb" />
     <Content Include="Bin\WebActivator.dll" />
+    <Content Include="Content\css\style.css" />
     <Content Include="Content\images\logo.jpg" />
     <Content Include="Content\images\logo.jpg" />
     <Content Include="Content\images\nib.ico" />
+    <Content Include="Content\js\libs\jquery-1.7.2.min.js" />
+    <Content Include="Content\js\libs\modernizr-2.5.3.min.js" />
+    <Content Include="Content\js\plugins.js" />
+    <Content Include="Content\js\script.js" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -214,6 +219,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\img\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

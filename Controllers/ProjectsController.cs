@@ -184,9 +184,10 @@ namespace GPP.Controllers
         [HttpPost]
         public ActionResult AddMilestoneToProject(int id, MilestoneViewModel model)
         {
+            
             if (!ModelState.IsValid)
             {
-                SetupMilestone(model.ProjectId.ToString());
+                SetupMilestone(id.ToString());
                 ViewBag.Typez = new SelectList(Tyypes.GetMilestoneTypes(), "Id", "Name");
                 return View();
             }
