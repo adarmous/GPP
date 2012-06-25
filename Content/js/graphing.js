@@ -45,10 +45,12 @@ $(document).ready(function () {
         runMethods();
     });
 
-    $(window).resize(function () {
-        runMethods();
-    });
+    window.addEventListener("resize", check, false);
 
+    var resizeTimer;
+    function check(ev) {
+        runMethods();
+    }
 
     initCanvas();
     getSetData();
@@ -56,6 +58,7 @@ $(document).ready(function () {
     drawGraph();
 
     function runMethods() {
+        divWidth = 0;
         textStart = 465;
         divHeight = 560;
         startingLabel = 14;
@@ -77,6 +80,8 @@ $(document).ready(function () {
         document.getElementById("graph").height = divHeight;
         document.getElementById("graph").style.width = divWidth;
         document.getElementById("graph").style.height = divHeight;
+        ctx.canvas.width = divWidth;
+
         //alert("after" + document.getElementById("graph").width);
         ctx.font = '9px Verdana';
     }
@@ -257,7 +262,7 @@ $(document).ready(function () {
                 weeksBetween = weeks_between(Date.parse(realStartDate), Date.parse(end.toDateString()));
                 ctx.fillRect(taskStart, yCounter, (weeksBetween * spacing), 40);
                 ctx.fillStyle = "#000000";
-          
+
                 ctx.fillText(name, taskStart + 2, yCounter + 20);
             }
             else {
@@ -265,7 +270,7 @@ $(document).ready(function () {
                 weeksBetween = weeks_between(Date.parse(start.toDateString()), Date.parse(end.toDateString()));
                 ctx.fillRect(taskStart, yCounter, (weeksBetween * spacing), 40);
                 ctx.fillStyle = "#000000";
-                
+
                 ctx.fillText(name, taskStart + 2, yCounter + 20);
             }
             //restore();
